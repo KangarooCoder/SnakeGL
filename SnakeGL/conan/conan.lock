@@ -1,0 +1,35 @@
+{
+ "profile_host": "[settings]\narch=x86_64\narch_build=x86_64\nbuild_type=Release\ncompiler=apple-clang\ncompiler.libcxx=libc++\ncompiler.version=11.0\nos=Macos\nos_build=Macos\n[options]\n[build_requires]\n[env]\n",
+ "graph_lock": {
+  "nodes": {
+   "0": {
+    "pref": null,
+    "options": "glad:extensions=''\nglad:fPIC=True\nglad:gl_profile=compatibility\nglad:gl_version=3.3\nglad:gles1_version=None\nglad:gles2_version=None\nglad:glsc2_version=None\nglad:no_loader=False\nglad:shared=False\nglad:spec=gl\nglfw:fPIC=True\nglfw:shared=False",
+    "requires": [
+     "1",
+     "2",
+     "3",
+     "4"
+    ],
+    "path": "/Users/ksbilodeau/Desktop/Xcode Projects/SnakeGL/SnakeGL/conan/conanfile.txt"
+   },
+   "1": {
+    "pref": "glfw/3.3.2@bincrafters/stable#0:f74366f76f700cc6e991285892ad7a23c30e6d47#0",
+    "options": "fPIC=True\nshared=False"
+   },
+   "2": {
+    "pref": "glad/0.1.33#0:3a99e4ae8c78fb6825d6f58fd566c4f26092372a#0",
+    "options": "extensions=''\nfPIC=True\ngl_profile=compatibility\ngl_version=3.3\ngles1_version=None\ngles2_version=None\nglsc2_version=None\nno_loader=False\nshared=False\nspec=gl"
+   },
+   "3": {
+    "pref": "stb/20190512@conan/stable#0:5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9#0",
+    "options": ""
+   },
+   "4": {
+    "pref": "glm/0.9.9.5@g-truc/stable#0:5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9#0",
+    "options": ""
+   }
+  }
+ },
+ "version": "0.3"
+}

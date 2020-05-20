@@ -1,0 +1,9 @@
+
+HEADER_SEARCH_PATHS = $(inherited) "/Users/ksbilodeau/.conan/data/glfw/3.3.2/bincrafters/stable/package/f74366f76f700cc6e991285892ad7a23c30e6d47/include" "/Users/ksbilodeau/.conan/data/glad/0.1.33/_/_/package/3a99e4ae8c78fb6825d6f58fd566c4f26092372a/include" "/Users/ksbilodeau/.conan/data/stb/20190512/conan/stable/package/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9/include" "/Users/ksbilodeau/.conan/data/glm/0.9.9.5/g-truc/stable/package/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9/include"
+LIBRARY_SEARCH_PATHS = $(inherited) "/Users/ksbilodeau/.conan/data/glfw/3.3.2/bincrafters/stable/package/f74366f76f700cc6e991285892ad7a23c30e6d47/lib" "/Users/ksbilodeau/.conan/data/glad/0.1.33/_/_/package/3a99e4ae8c78fb6825d6f58fd566c4f26092372a/lib" "/Users/ksbilodeau/.conan/data/glm/0.9.9.5/g-truc/stable/package/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9/lib"
+OTHER_LDFLAGS = $(inherited)  -lglfw3 -lglad  -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo
+
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) "STB_TEXTEDIT_KEYTYPE=unsigned"
+OTHER_CFLAGS = $(inherited) 
+OTHER_CPLUSPLUSFLAGS = $(inherited) 
+FRAMEWORK_SEARCH_PATHS = $(inherited) "/Users/ksbilodeau/.conan/data/glfw/3.3.2/bincrafters/stable/package/f74366f76f700cc6e991285892ad7a23c30e6d47" "/Users/ksbilodeau/.conan/data/glad/0.1.33/_/_/package/3a99e4ae8c78fb6825d6f58fd566c4f26092372a" "/Users/ksbilodeau/.conan/data/stb/20190512/conan/stable/package/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9" "/Users/ksbilodeau/.conan/data/glm/0.9.9.5/g-truc/stable/package/5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9" 
