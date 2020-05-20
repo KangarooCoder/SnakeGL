@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		86F04B002475B94B0017B22F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 86F04AFF2475B94B0017B22F /* main.cpp */; };
 		86F04B112475C2320017B22F /* callback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 86F04B0F2475C2320017B22F /* callback.cpp */; };
+		86F04B142475CC9E0017B22F /* shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 86F04B122475CC9E0017B22F /* shader.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -34,6 +35,10 @@
 		86F04B0E2475BAD60017B22F /* conanbuildinfo.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = conanbuildinfo.txt; sourceTree = "<group>"; };
 		86F04B0F2475C2320017B22F /* callback.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = callback.cpp; sourceTree = "<group>"; };
 		86F04B102475C2320017B22F /* callback.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = callback.hpp; sourceTree = "<group>"; };
+		86F04B122475CC9E0017B22F /* shader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = shader.cpp; sourceTree = "<group>"; };
+		86F04B132475CC9E0017B22F /* shader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = shader.hpp; sourceTree = "<group>"; };
+		86F04B152475DC6A0017B22F /* vShader.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = vShader.vert; sourceTree = "<group>"; };
+		86F04B162475DC750017B22F /* fShader.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = fShader.frag; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +76,8 @@
 				86F04AFF2475B94B0017B22F /* main.cpp */,
 				86F04B0F2475C2320017B22F /* callback.cpp */,
 				86F04B102475C2320017B22F /* callback.hpp */,
+				86F04B122475CC9E0017B22F /* shader.cpp */,
+				86F04B132475CC9E0017B22F /* shader.hpp */,
 			);
 			path = SnakeGL;
 			sourceTree = "<group>";
@@ -78,6 +85,8 @@
 		86F04B072475BA390017B22F /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				86F04B152475DC6A0017B22F /* vShader.vert */,
+				86F04B162475DC750017B22F /* fShader.frag */,
 			);
 			path = resources;
 			sourceTree = "<group>";
@@ -152,6 +161,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86F04B142475CC9E0017B22F /* shader.cpp in Sources */,
 				86F04B112475C2320017B22F /* callback.cpp in Sources */,
 				86F04B002475B94B0017B22F /* main.cpp in Sources */,
 			);
