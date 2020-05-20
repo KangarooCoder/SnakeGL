@@ -13,18 +13,24 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		86F04AFA2475B94B0017B22F /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 16;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		86F04AFC2475B94B0017B22F /* SnakeGL */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SnakeGL; sourceTree = BUILT_PRODUCTS_DIR; };
 		86F04AFF2475B94B0017B22F /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		86F04B092475BA950017B22F /* conanfile.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = conanfile.txt; sourceTree = "<group>"; };
+		86F04B0A2475BAD60017B22F /* conaninfo.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = conaninfo.txt; sourceTree = "<group>"; };
+		86F04B0B2475BAD60017B22F /* conan.lock */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = conan.lock; sourceTree = "<group>"; };
+		86F04B0C2475BAD60017B22F /* conanbuildinfo.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = conanbuildinfo.xcconfig; sourceTree = "<group>"; };
+		86F04B0D2475BAD60017B22F /* graph_info.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = graph_info.json; sourceTree = "<group>"; };
+		86F04B0E2475BAD60017B22F /* conanbuildinfo.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = conanbuildinfo.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,9 +63,31 @@
 		86F04AFE2475B94B0017B22F /* SnakeGL */ = {
 			isa = PBXGroup;
 			children = (
+				86F04B082475BA520017B22F /* conan */,
+				86F04B072475BA390017B22F /* resources */,
 				86F04AFF2475B94B0017B22F /* main.cpp */,
 			);
 			path = SnakeGL;
+			sourceTree = "<group>";
+		};
+		86F04B072475BA390017B22F /* resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = resources;
+			sourceTree = "<group>";
+		};
+		86F04B082475BA520017B22F /* conan */ = {
+			isa = PBXGroup;
+			children = (
+				86F04B0C2475BAD60017B22F /* conanbuildinfo.xcconfig */,
+				86F04B092475BA950017B22F /* conanfile.txt */,
+				86F04B0B2475BAD60017B22F /* conan.lock */,
+				86F04B0E2475BAD60017B22F /* conanbuildinfo.txt */,
+				86F04B0A2475BAD60017B22F /* conaninfo.txt */,
+				86F04B0D2475BAD60017B22F /* graph_info.json */,
+			);
+			path = conan;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -128,6 +156,7 @@
 /* Begin XCBuildConfiguration section */
 		86F04B012475B94B0017B22F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 86F04B0C2475BAD60017B22F /* conanbuildinfo.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -186,6 +215,7 @@
 		};
 		86F04B022475B94B0017B22F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 86F04B0C2475BAD60017B22F /* conanbuildinfo.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -237,6 +267,7 @@
 		};
 		86F04B042475B94B0017B22F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 86F04B0C2475BAD60017B22F /* conanbuildinfo.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K965454LM2;
@@ -247,6 +278,7 @@
 		};
 		86F04B052475B94B0017B22F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 86F04B0C2475BAD60017B22F /* conanbuildinfo.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K965454LM2;

@@ -1,0 +1,9 @@
+[requires]
+glfw/3.3.2@bincrafters/stable
+glad/0.1.33
+stb/20190512@conan/stable
+glm/0.9.9.5@g-truc/stable
+
+
+[generators]
+xcode
