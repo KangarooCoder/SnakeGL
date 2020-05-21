@@ -152,11 +152,11 @@ void Shader::setUniform(const char *name, float x, float y, float z)
 void Shader::setUniform(const char *name, glm::mat4 value)
 {
     int uniformLoc = glGetUniformLocation(ID, name);
-    glUniform3fv(uniformLoc, 1, glm::value_ptr(value));
+    glUniformMatrix4fv(uniformLoc, 1, GL_FALSE, glm::value_ptr(value));
 }
 
 void Shader::setUniform(const char *name, glm::vec3 value)
 {
     int uniformLoc = glGetUniformLocation(ID, name);
-    glUniformMatrix4fv(uniformLoc, 1, GL_FALSE, glm::value_ptr(value));
+    glUniform3fv(uniformLoc, 1, glm::value_ptr(value));
 }

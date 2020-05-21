@@ -39,17 +39,19 @@
 // Wrapper for openGL shaders
 #include "shader.hpp"
 
+// VAO generators for various shapes
+#include "renderable.hpp"
+
 // Game window
 GLFWwindow* window;
 
 // Screen width and heigh constants
-const int SCREEN_WIDTH = 750;
-const int SCREEN_HEIGHT = 750;
+const float SCREEN_WIDTH = 750.0f;
+const float SCREEN_HEIGHT = 750.0f;
 
 // Function predefinitions
 bool initWindow();
 void processInput(GLFWwindow* window);
-void close();
 
 int main(int argc, const char * argv[])
 {
@@ -63,38 +65,37 @@ int main(int argc, const char * argv[])
         return EXIT_FAILURE;
     }
     
-    float vertices[] = {
-         0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
-         0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
-        -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
-        -0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 1.0f
-    };
+    unsigned int VAO;
+    generateCubeVAO(VAO, 0.5, 0.5, true);
     
-    unsigned int indices[] = {
-        0, 1, 3,
-        1, 2, 3
-    };
-    
-    unsigned int VAO, VBO, EBO;
-    glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
-    
-    glGenVertexArrays(1, &VAO);
-    glBindVertexArray(VAO);
-    
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-    
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*) 0);
-    glEnableVertexAttribArray(0);
-    
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*) (3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
+    unsigned int texture;
+    loadTexture("resources/sprites.png", texture);
     
     Shader shader("resources/vShader.vert", "resources/fShader.frag");
+    shader.use();
+    shader.setUniform("texture1", 0);
+    
+    glm::vec3 direction;
+    
+    direction.x = cos(glm::radians(-90.0f)) * cos(glm::radians(0.0f));
+    direction.y = sin(glm::radians(0.0f));
+    direction.z = sin(glm::radians(-90.0f)) * cos(glm::radians(0.0f));
+    
+    glm::vec3 mCameraFront = glm::normalize(direction);
+    
+    glm::vec3 mCameraRight = glm::normalize(glm::cross(mCameraFront, glm::vec3(0.0f, 1.0f, 0.0f)));
+    glm::vec3 mCameraUp = glm::normalize(glm::cross(mCameraRight, mCameraFront));
+    
+    glm::mat4 model = glm::mat4(1.0f), view = glm::mat4(1.0f), projection = glm::mat4(1.0f);
+    
+    view = glm::lookAt(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.0f, 3.0f) + mCameraFront, mCameraUp);
+    
+    projection = glm::perspective(glm::radians(45.0f), (SCREEN_WIDTH / SCREEN_HEIGHT), 0.1f, 100.0f);
+    
+    shader.use();
+    shader.setUniform("model", model);
+    shader.setUniform("view", view);
+    shader.setUniform("projection", projection);
     
     // Main game loop
     while (!glfwWindowShouldClose(window))
@@ -102,15 +103,23 @@ int main(int argc, const char * argv[])
         // Check for input once per frame (separate from window callback)
         processInput(window);
         
+        shader.use();
+        
         // Clear the screen with a nice gray color
         glClearColor(0.138f, 0.138f, 0.138f, 1.0f);
         // Clear the color and depth buffers
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
-        shader.use();
+        model = glm::mat4(1.0f);
+        model = glm::rotate(model, glm::radians(20.0f * (float) glfwGetTime()), glm::vec3(0.0f, 1.0f, 0.0f));
+        
+        shader.setUniform("model", model);
+        
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, texture);
         
         glBindVertexArray(VAO);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
         
         // Swap the frame buffers
         glfwSwapBuffers(window);
@@ -118,8 +127,14 @@ int main(int argc, const char * argv[])
         glfwPollEvents();
     }
     
-    // Shuts everything down and frees anything neccessary
-    close();
+    // Free buffers
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteProgram(shader.ID);
+    
+    
+    // Shutdown GLFW
+    glfwTerminate();
+    
     // Return application success
     return EXIT_SUCCESS;
 }
@@ -175,6 +190,9 @@ bool initWindow()
     // Scroll movement callback
     glfwSetScrollCallback(window, scroll_callback);
     
+    // Enable depth testing
+    glEnable(GL_DEPTH_TEST);
+    
     return true;
 }
 
@@ -183,11 +201,4 @@ void processInput(GLFWwindow *window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE))
         glfwSetWindowShouldClose(window, true);
-}
-
-// Shutdown library subsystems and free data
-void close()
-{
-    // Terminate GLFW subsystems
-    glfwTerminate();
 }
