@@ -8,9 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		86F04B002475B94B0017B22F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 86F04AFF2475B94B0017B22F /* main.cpp */; };
-		86F04B112475C2320017B22F /* callback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 86F04B0F2475C2320017B22F /* callback.cpp */; };
 		86F04B142475CC9E0017B22F /* shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 86F04B122475CC9E0017B22F /* shader.cpp */; };
 		86F04B192475E55B0017B22F /* renderable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 86F04B172475E55B0017B22F /* renderable.cpp */; };
+		86F04B1D247767720017B22F /* camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 86F04B1B247767720017B22F /* camera.cpp */; };
+		86F04B1E2477856D0017B22F /* sprites.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 86F04B1A24760F9B0017B22F /* sprites.png */; };
+		86F04B1F2477856D0017B22F /* vShader.vert in CopyFiles */ = {isa = PBXBuildFile; fileRef = 86F04B152475DC6A0017B22F /* vShader.vert */; };
+		86F04B202477856D0017B22F /* fShader.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 86F04B162475DC750017B22F /* fShader.frag */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -18,8 +21,11 @@
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
 			dstPath = "";
-			dstSubfolderSpec = 16;
+			dstSubfolderSpec = 7;
 			files = (
+				86F04B1E2477856D0017B22F /* sprites.png in CopyFiles */,
+				86F04B1F2477856D0017B22F /* vShader.vert in CopyFiles */,
+				86F04B202477856D0017B22F /* fShader.frag in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -34,8 +40,6 @@
 		86F04B0C2475BAD60017B22F /* conanbuildinfo.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = conanbuildinfo.xcconfig; sourceTree = "<group>"; };
 		86F04B0D2475BAD60017B22F /* graph_info.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = graph_info.json; sourceTree = "<group>"; };
 		86F04B0E2475BAD60017B22F /* conanbuildinfo.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = conanbuildinfo.txt; sourceTree = "<group>"; };
-		86F04B0F2475C2320017B22F /* callback.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = callback.cpp; sourceTree = "<group>"; };
-		86F04B102475C2320017B22F /* callback.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = callback.hpp; sourceTree = "<group>"; };
 		86F04B122475CC9E0017B22F /* shader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = shader.cpp; sourceTree = "<group>"; };
 		86F04B132475CC9E0017B22F /* shader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = shader.hpp; sourceTree = "<group>"; };
 		86F04B152475DC6A0017B22F /* vShader.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = vShader.vert; sourceTree = "<group>"; };
@@ -43,6 +47,8 @@
 		86F04B172475E55B0017B22F /* renderable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = renderable.cpp; sourceTree = "<group>"; };
 		86F04B182475E55B0017B22F /* renderable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = renderable.hpp; sourceTree = "<group>"; };
 		86F04B1A24760F9B0017B22F /* sprites.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sprites.png; sourceTree = "<group>"; };
+		86F04B1B247767720017B22F /* camera.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = camera.cpp; sourceTree = "<group>"; };
+		86F04B1C247767720017B22F /* camera.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = camera.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,10 +84,10 @@
 				86F04B082475BA520017B22F /* conan */,
 				86F04B072475BA390017B22F /* resources */,
 				86F04AFF2475B94B0017B22F /* main.cpp */,
-				86F04B0F2475C2320017B22F /* callback.cpp */,
-				86F04B102475C2320017B22F /* callback.hpp */,
 				86F04B122475CC9E0017B22F /* shader.cpp */,
 				86F04B132475CC9E0017B22F /* shader.hpp */,
+				86F04B1B247767720017B22F /* camera.cpp */,
+				86F04B1C247767720017B22F /* camera.hpp */,
 				86F04B172475E55B0017B22F /* renderable.cpp */,
 				86F04B182475E55B0017B22F /* renderable.hpp */,
 			);
@@ -169,9 +175,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				86F04B142475CC9E0017B22F /* shader.cpp in Sources */,
-				86F04B112475C2320017B22F /* callback.cpp in Sources */,
 				86F04B002475B94B0017B22F /* main.cpp in Sources */,
 				86F04B192475E55B0017B22F /* renderable.cpp in Sources */,
+				86F04B1D247767720017B22F /* camera.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,8 +299,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 86F04B0C2475BAD60017B22F /* conanbuildinfo.xcconfig */;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = K965454LM2;
+				DEVELOPMENT_TEAM = W7FLQV7B7S;
 				ENABLE_HARDENED_RUNTIME = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -304,8 +311,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 86F04B0C2475BAD60017B22F /* conanbuildinfo.xcconfig */;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = K965454LM2;
+				DEVELOPMENT_TEAM = W7FLQV7B7S;
 				ENABLE_HARDENED_RUNTIME = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

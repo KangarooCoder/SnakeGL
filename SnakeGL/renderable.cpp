@@ -50,9 +50,9 @@ void generateTriVAO(unsigned int &VAO, float w, float h, float r, float g, float
     glBindVertexArray(VAO);
     
     Vertex vertices[] = {
-        Vertex{{0.0f,  h, 0.0f}, {r, g, b}, {1.0f, 0.0f}},
-        Vertex{{   w, -h, 0.0f}, {r, g, b}, {1.0f, 1.0f}},
-        Vertex{{  -w, -h, 0.0f}, {r, g, b}, {0.0f, 1.0f}}
+        Vertex{{0.0f,  h, 0.0f}, {0.0f, 0.0f, 1.0f}, {r, g, b}, {1.0f, 0.0f}},
+        Vertex{{   w, -h, 0.0f}, {0.0f, 0.0f, 1.0f}, {r, g, b}, {1.0f, 1.0f}},
+        Vertex{{  -w, -h, 0.0f}, {0.0f, 0.0f, 1.0f}, {r, g, b}, {0.0f, 1.0f}}
     };
     
     unsigned int VBO;
@@ -62,16 +62,19 @@ void generateTriVAO(unsigned int &VAO, float w, float h, float r, float g, float
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*) 0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*) 0);
     glEnableVertexAttribArray(0);
     
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*) (3 * sizeof(float)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*) (3 * sizeof(float)));
     glEnableVertexAttribArray(1);
+    
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*) (6 * sizeof(float)));
+    glEnableVertexAttribArray(2);
     
     if (texture)
     {
-        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*) (6 * sizeof(float)));
-        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*) (9 * sizeof(float)));
+        glEnableVertexAttribArray(3);
     }
     
     glBindVertexArray(0);
@@ -91,10 +94,10 @@ void generateQuadVAO(unsigned int &VAO, float w, float h, float r, float g, floa
     
     Quad vertices[] = {
         Quad {
-            Vertex{{ w,  h, 0.0f}, {r, g, b}, {1.0f, 0.0f}},
-            Vertex{{ w, -h, 0.0f}, {r, g, b}, {1.0f, 1.0f}},
-            Vertex{{-w, -h, 0.0f}, {r, g, b}, {0.0f, 1.0f}},
-            Vertex{{-w,  h, 0.0f}, {r, g, b}, {0.0f, 0.0f}}
+            Vertex{{ w,  h, 0.0f}, {0.0f, 0.0f, 1.0f}, {r, g, b}, {1.0f, 0.0f}},
+            Vertex{{ w, -h, 0.0f}, {0.0f, 0.0f, 1.0f}, {r, g, b}, {1.0f, 1.0f}},
+            Vertex{{-w, -h, 0.0f}, {0.0f, 0.0f, 1.0f}, {r, g, b}, {0.0f, 1.0f}},
+            Vertex{{-w,  h, 0.0f}, {0.0f, 0.0f, 1.0f}, {r, g, b}, {0.0f, 0.0f}}
         }
     };
     
@@ -114,16 +117,19 @@ void generateQuadVAO(unsigned int &VAO, float w, float h, float r, float g, floa
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
     
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*) 0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*) 0);
     glEnableVertexAttribArray(0);
     
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*) (3 * sizeof(float)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*) (3 * sizeof(float)));
     glEnableVertexAttribArray(1);
+    
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*) (6 * sizeof(float)));
+    glEnableVertexAttribArray(2);
     
     if (texture)
     {
-        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*) (6 * sizeof(float)));
-        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*) (9 * sizeof(float)));
+        glEnableVertexAttribArray(3);
     }
     
     glBindVertexArray(0);
@@ -148,49 +154,50 @@ void generateCubeVAO(unsigned int &VAO, float w, float h, float r, float g, floa
             // Back
             Quad
             {
-                Vertex{{ w,  h, -0.5f}, {r, g, b}, {1.0f, 0.0f}},
-                Vertex{{ w, -h, -0.5f}, {r, g, b}, {1.0f, 1.0f}},
-                Vertex{{-w, -h, -0.5f}, {r, g, b}, {0.0f, 1.0f}},
-                Vertex{{-w,  h, -0.5f}, {r, g, b}, {0.0f, 0.0f}}
+                Vertex{{-w,  h, -h}, {0.0f, 0.0f, -1.0f}, {r, g, b}, {1.0f, 0.0f}},
+                Vertex{{-w, -h, -h}, {0.0f, 0.0f, -1.0f}, {r, g, b}, {1.0f, 1.0f}},
+                Vertex{{ w, -h, -h}, {0.0f, 0.0f, -1.0f}, {r, g, b}, {0.0f, 1.0f}},
+                Vertex{{ w,  h, -h}, {0.0f, 0.0f, -1.0f}, {r, g, b}, {0.0f, 0.0f}}
             },
             // Front
             Quad
             {
-                Vertex{{ w,  h, 0.5f}, {r, g, b}, {1.0f, 0.0f}},
-                Vertex{{ w, -h, 0.5f}, {r, g, b}, {1.0f, 1.0f}},
-                Vertex{{-w, -h, 0.5f}, {r, g, b}, {0.0f, 1.0f}},
-                Vertex{{-w,  h, 0.5f}, {r, g, b}, {0.0f, 0.0f}}
+                Vertex{{ w,  h, h}, {0.0f, 0.0f, 1.0f}, {r, g, b}, {1.0f, 0.0f}},
+                Vertex{{ w, -h, h}, {0.0f, 0.0f, 1.0f}, {r, g, b}, {1.0f, 1.0f}},
+                Vertex{{-w, -h, h}, {0.0f, 0.0f, 1.0f}, {r, g, b}, {0.0f, 1.0f}},
+                Vertex{{-w,  h, h}, {0.0f, 0.0f, 1.0f}, {r, g, b}, {0.0f, 0.0f}}
             },
             // Bottom
             Quad
             {
-                Vertex{{ w, -h, -0.5f}, {r, g, b}, {1.0f, 0.0f}},
-                Vertex{{ w, -h,  0.5f}, {r, g, b}, {1.0f, 1.0f}},
-                Vertex{{-w, -h,  0.5f}, {r, g, b}, {0.0f, 1.0f}},
-                Vertex{{-w, -h, -0.5f}, {r, g, b}, {0.0f, 0.0f}}
+                Vertex{{ w, -h, -h}, {0.0f, -1.0f, 0.0f}, {r, g, b}, {1.0f, 0.0f}},
+                Vertex{{ w, -h,  h}, {0.0f, -1.0f, 0.0f}, {r, g, b}, {1.0f, 1.0f}},
+                Vertex{{-w, -h,  h}, {0.0f, -1.0f, 0.0f}, {r, g, b}, {0.0f, 1.0f}},
+                Vertex{{-w, -h, -h}, {0.0f, -1.0f, 0.0f}, {r, g, b}, {0.0f, 0.0f}}
             },
             // Top
             Quad
             {
-                Vertex{{ w,  h, -0.5f}, {r, g, b}, {1.0f, 0.0f}},
-                Vertex{{ w,  h,  0.5f}, {r, g, b}, {1.0f, 1.0f}},
-                Vertex{{-w,  h,  0.5f}, {r, g, b}, {0.0f, 1.0f}},
-                Vertex{{-w,  h, -0.5f}, {r, g, b}, {0.0f, 0.0f}}
+                Vertex{{ w,  h, -h}, {0.0f, 1.0f, 0.0f}, {r, g, b}, {1.0f, 0.0f}},
+                Vertex{{ w,  h,  h}, {0.0f, 1.0f, 0.0f}, {r, g, b}, {1.0f, 1.0f}},
+                Vertex{{-w,  h,  h}, {0.0f, 1.0f, 0.0f}, {r, g, b}, {0.0f, 1.0f}},
+                Vertex{{-w,  h, -h}, {0.0f, 1.0f, 0.0f}, {r, g, b}, {0.0f, 0.0f}}
             },
             // Right
             Quad
             {
-                Vertex{{ w,  h, -0.5f}, {r, g, b}, {1.0f, 0.0f}},
-                Vertex{{ w, -h, -0.5f}, {r, g, b}, {1.0f, 1.0f}},
-                Vertex{{ w, -h,  0.5f}, {r, g, b}, {0.0f, 1.0f}},
-                Vertex{{ w,  h,  0.5f}, {r, g, b}, {0.0f, 0.0f}}
+                Vertex{{ w,  h, -h}, {1.0f, 0.0f, 0.0f}, {r, g, b}, {1.0f, 0.0f}},
+                Vertex{{ w, -h, -h}, {1.0f, 0.0f, 0.0f}, {r, g, b}, {1.0f, 1.0f}},
+                Vertex{{ w, -h,  h}, {1.0f, 0.0f, 0.0f}, {r, g, b}, {0.0f, 1.0f}},
+                Vertex{{ w,  h,  h}, {1.0f, 0.0f, 0.0f}, {r, g, b}, {0.0f, 0.0f}}
             },
+            // Left
             Quad
             {
-                Vertex{{-w,  h,  0.5f}, {r, g, b}, {1.0f, 0.0f}},
-                Vertex{{-w, -h,  0.5f}, {r, g, b}, {1.0f, 1.0f}},
-                Vertex{{-w, -h, -0.5f}, {r, g, b}, {0.0f, 1.0f}},
-                Vertex{{-w,  h, -0.5f}, {r, g, b}, {0.0f, 0.0f}}
+                Vertex{{-w,  h,  h}, {-1.0f, 0.0f, 0.0f}, {r, g, b}, {1.0f, 0.0f}},
+                Vertex{{-w, -h,  h}, {-1.0f, 0.0f, 0.0f}, {r, g, b}, {1.0f, 1.0f}},
+                Vertex{{-w, -h, -h}, {-1.0f, 0.0f, 0.0f}, {r, g, b}, {0.0f, 1.0f}},
+                Vertex{{-w,  h, -h}, {-1.0f, 0.0f, 0.0f}, {r, g, b}, {0.0f, 0.0f}}
             }
         }
     };
@@ -221,16 +228,19 @@ void generateCubeVAO(unsigned int &VAO, float w, float h, float r, float g, floa
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
     
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*) 0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*) 0);
     glEnableVertexAttribArray(0);
     
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*) (3 * sizeof(float)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*) (3 * sizeof(float)));
     glEnableVertexAttribArray(1);
+    
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*) (6 * sizeof(float)));
+    glEnableVertexAttribArray(2);
     
     if (texture)
     {
-        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*) (6 * sizeof(float)));
-        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*) (9 * sizeof(float)));
+        glEnableVertexAttribArray(3);
     }
     
     glBindVertexArray(0);

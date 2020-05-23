@@ -17,6 +17,7 @@
 #include <iostream>
 #include <time.h>
 #include <vector>
+#include <filesystem>
 
 // Window handler libraries
 #include <glad/glad.h>
@@ -33,25 +34,43 @@
 // Restores clang to its normal state
 #pragma clang diagnostic pop
 
-// Callback functions for input handling
-#include "callback.hpp"
-
 // Wrapper for openGL shaders
 #include "shader.hpp"
 
 // VAO generators for various shapes
 #include "renderable.hpp"
 
+// Contains the game's camera class
+#include "camera.hpp"
+
 // Game window
 GLFWwindow* window;
+
+// Game camera
+Camera camera(true);
 
 // Screen width and heigh constants
 const float SCREEN_WIDTH = 750.0f;
 const float SCREEN_HEIGHT = 750.0f;
 
+// Time handling variables
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
+// Last x position of the cursor
+float lastX = 325, lastY = 325;
+// Keeps the screen from jerking on the first mouse input
+bool firstMouseInput = true;
+
+// Global light position
+glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+
 // Function predefinitions
 bool initWindow();
 void processInput(GLFWwindow* window);
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int modes);
+void mouse_callback(GLFWwindow* window, double xPos, double yPos);
+void scroll_callback(GLFWwindow* window, double xOffset, double yOffset);
 
 int main(int argc, const char * argv[])
 {
@@ -65,61 +84,48 @@ int main(int argc, const char * argv[])
         return EXIT_FAILURE;
     }
     
-    unsigned int VAO;
-    generateCubeVAO(VAO, 0.5, 0.5, true);
-    
-    unsigned int texture;
-    loadTexture("resources/sprites.png", texture);
-    
+    // Creates a shader and sets it as the active shader
     Shader shader("resources/vShader.vert", "resources/fShader.frag");
     shader.use();
-    shader.setUniform("texture1", 0);
     
-    glm::vec3 direction;
+    // Sets uniforms neccessary for light calculations
+    shader.setUniform("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
+    shader.setUniform("lightPos", camera.getCameraPos());
     
-    direction.x = cos(glm::radians(-90.0f)) * cos(glm::radians(0.0f));
-    direction.y = sin(glm::radians(0.0f));
-    direction.z = sin(glm::radians(-90.0f)) * cos(glm::radians(0.0f));
-    
-    glm::vec3 mCameraFront = glm::normalize(direction);
-    
-    glm::vec3 mCameraRight = glm::normalize(glm::cross(mCameraFront, glm::vec3(0.0f, 1.0f, 0.0f)));
-    glm::vec3 mCameraUp = glm::normalize(glm::cross(mCameraRight, mCameraFront));
-    
+    // Created the matrixes for use in the main game loop
     glm::mat4 model = glm::mat4(1.0f), view = glm::mat4(1.0f), projection = glm::mat4(1.0f);
-    
-    view = glm::lookAt(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.0f, 3.0f) + mCameraFront, mCameraUp);
-    
-    projection = glm::perspective(glm::radians(45.0f), (SCREEN_WIDTH / SCREEN_HEIGHT), 0.1f, 100.0f);
-    
-    shader.use();
-    shader.setUniform("model", model);
-    shader.setUniform("view", view);
-    shader.setUniform("projection", projection);
     
     // Main game loop
     while (!glfwWindowShouldClose(window))
     {
+        float currentFrame = glfwGetTime();
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+        
         // Check for input once per frame (separate from window callback)
         processInput(window);
         
+        // Sets this shaders as the active shader
         shader.use();
+        
+        // Sets the model matrix uniform for the conversion from NDC to model coords
+        model = glm::mat4(1.0f);
+        shader.setUniform("model", model);
+        
+        // Sets the view matrix uniform for the conversion from model coords to view coords
+        view = glm::mat4(1.0f);
+        view = camera.getViewMatrix();
+        shader.setUniform("view", view);
+        
+        // Sets the projection matrix uniform for the conversion from view coords to projection coords
+        projection = glm::mat4(1.0f);
+        projection = glm::perspective(glm::radians(camera.getFOV()), SCREEN_WIDTH / SCREEN_HEIGHT, 0.1f, 1000.0f);
+        shader.setUniform("projection", projection);
         
         // Clear the screen with a nice gray color
         glClearColor(0.138f, 0.138f, 0.138f, 1.0f);
         // Clear the color and depth buffers
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        
-        model = glm::mat4(1.0f);
-        model = glm::rotate(model, glm::radians(20.0f * (float) glfwGetTime()), glm::vec3(0.0f, 1.0f, 0.0f));
-        
-        shader.setUniform("model", model);
-        
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, texture);
-        
-        glBindVertexArray(VAO);
-        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
         
         // Swap the frame buffers
         glfwSwapBuffers(window);
@@ -128,7 +134,6 @@ int main(int argc, const char * argv[])
     }
     
     // Free buffers
-    glDeleteVertexArrays(1, &VAO);
     glDeleteProgram(shader.ID);
     
     
@@ -190,6 +195,9 @@ bool initWindow()
     // Scroll movement callback
     glfwSetScrollCallback(window, scroll_callback);
     
+    // Moves cursor to the center of the window
+    glfwSetCursorPos(window, SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f);
+    
     // Enable depth testing
     glEnable(GL_DEPTH_TEST);
     
@@ -199,6 +207,61 @@ bool initWindow()
 // Handle window input
 void processInput(GLFWwindow *window)
 {
+    // Allows the user to exit when cursor is captured
     if (glfwGetKey(window, GLFW_KEY_ESCAPE))
         glfwSetWindowShouldClose(window, true);
+    
+    // Processes keyboard input into directions used by the camera for movement
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+        camera.processInput(FORWARD, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+        camera.processInput(BACKWARD, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        camera.processInput(LEFT, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+        camera.processInput(RIGHT, deltaTime);
+}
+
+void framebuffer_size_callback(GLFWwindow *window, int width, int height)
+{
+    // Sets the GL viewport to the proper size upon window resize
+    glViewport(0, 0, width, height);
+    
+    // Sets the cursor to the correct position
+    glfwSetCursorPos(window, (float)(width) / 2.0f, (float)(height) / 2.0f);
+}
+
+void key_callback(GLFWwindow *window, int key, int scancode, int action, int modes)
+{
+    
+}
+
+void mouse_callback(GLFWwindow *window, double xPos, double yPos)
+{
+    // Check if the mouse is moving for the first time
+    if (firstMouseInput)
+    {
+        // Set the lastX and lastY to the current position to avoid the camera jerking
+        lastX = xPos;
+        lastY = yPos;
+        
+        // Set this to false to allow for normal input calculation from now on
+        firstMouseInput = false;
+    }
+    
+    // Calculate the offset from the last mouse position to the current mouse position
+    float xOffset = xPos - lastX;
+    float yOffset = lastY - yPos;
+    // Set the lastX and lastY variables for next input calculation
+    lastX = xPos;
+    lastY = yPos;
+    
+    // Pass the offsets to the camera to calculate direction vectors
+    camera.processMouseInput(xOffset, yOffset);
+}
+
+void scroll_callback(GLFWwindow *window, double xOffset, double yOffset)
+{
+    // Pass the yOffset to the camera to allow for a zoom effect
+    camera.processMouseScroll(yOffset);
 }
